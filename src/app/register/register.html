@@ -1,0 +1,32 @@
+<div class="register-container">
+  <!-- 🖼️ Left Side: Image / Illustration -->
+  <div class="register-image">
+    <img src="assets/logo.png" alt="Study Planner Logo" />
+  </div>
+
+  <!-- ✍️ Right Side: Registration Form -->
+  <div class="register-form">
+    <h2>Create Your Campus Account</h2>
+    <p class="subtitle">Join your classmates and stay organized</p>
+
+    <form [formGroup]="registerForm">
+      <div class="mb-3">
+        <input type="text" formControlName="name" class="form-control" placeholder="Full Name" />
+      </div>
+      <div class="mb-3">
+        <input type="email" formControlName="email" class="form-control" placeholder="Email address" />
+      </div>
+      <div class="mb-3">
+        <input type="password" formControlName="password" class="form-control" placeholder="Password (min. 4 chars)" />
+      </div>
+      <button type="button" (click)="onRegister()" class="btn btn-register">
+        Create Account
+      </button>
+    </form>
+
+    <div class="extra-links">
+      <span>Already have an account?</span>
+      <a [routerLink]="['/login']">Login</a>
+    </div>
+  </div>
+</div>

@@ -18,12 +18,11 @@
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+           "assets": [
+  "src/favicon.ico",
+  "src/assets"
+],
+
             "styles": [
               "src/styles.css"
             ]
@@ -59,7 +58,9 @@
               "buildTarget": "StudyPlanner_2:build:production"
             },
             "development": {
-              "buildTarget": "StudyPlanner_2:build:development"
+              "buildTarget": "StudyPlanner_2:build:development",      
+              "proxyConfig": "proxy.conf.json"
+
             }
           },
           "defaultConfiguration": "development"
@@ -88,5 +89,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "3d1df3ee-8144-4313-b45e-238a181ab4d1"
   }
 }
