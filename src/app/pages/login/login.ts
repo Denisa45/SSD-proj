@@ -1,13 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';    // 👈 ADD THIS
-import { UserService, User } from '../../services/user.service';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { User as FirebaseUser } from 'firebase/auth';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],   // 👈 ADD RouterLink HERE
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
@@ -17,20 +18,30 @@ export class Login {
     Password: new FormControl('', Validators.required)
   });
 
-  route = inject(Router);
-  userService = inject(UserService);
+  private route = inject(Router);
+  private authService = inject(AuthService);
 
-  onLogin() {
-      const { EmailId, Password } = this.loginForm.value;
-    const userData = { email: EmailId, password: Password };
-
-    this.userService.login(EmailId, Password).subscribe({
-      next: (user) => {
-        localStorage.setItem('user', JSON.stringify(user));
-        this.route.navigate(['/dashboard']); // we'll fix this below 👇
-      },
-      error: (err) => console.error(err)
-    });
-
+  // Firebase email/password login
+  async loginWithEmail() {
+    const { EmailId, Password } = this.loginForm.value;
+    try {
+      const user: FirebaseUser = await this.authService.loginWithEmail(EmailId, Password);
+      localStorage.setItem('user', JSON.stringify({ email: user.email, uid: user.uid }));
+      this.route.navigate(['/dashboard']);
+    } catch (err: any) {
+      console.error('Login failed:', err.message);
+    }
   }
+
+  // Firebase Google login
+  async loginWithGoogle() {
+  try {
+    const user = await this.authService.loginWithGoogle();
+    localStorage.setItem('user', JSON.stringify({ email: user.email, uid: user.uid }));
+    this.route.navigate(['/dashboard']);
+  } catch (err: any) {
+    console.error(err.message);
+  }
+}
+
 }

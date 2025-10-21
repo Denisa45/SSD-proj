@@ -8,6 +8,34 @@ body {
   margin: 0;
   padding: 0;
 }
+/* Google login button container */
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;              /* space between icon and text */
+  background-color: #ffffff;
+  color: #444;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+.btn-google:hover {
+  background-color: #f7f7f7;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+/* Google logo inside button */
+.btn-google img {
+  width: 24px;   /* icon size */
+  height: 24px;
+}
 
 .login-container {
   background: #fff;

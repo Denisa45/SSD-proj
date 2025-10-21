@@ -1,10 +1,61 @@
-<div class="dashboard-container" *ngIf="user">
-  <h2>Welcome, {{ user?.name || user?.email }} 👋</h2>
-  <p>Email: {{ user?.email }}</p>
-  <button (click)="logout()" class="btn btn-logout">Logout</button>
+<div class="dashboard-container">
+  <!-- Header Card -->
+  <div class="header-card">
+    <h1>Welcome, {{ user()?.name || user()?.email }}!</h1>
+    <p>Email: {{ user()?.email }}</p>
+    <p *ngIf="user()?.uid">Firebase UID: {{ user()?.uid }}</p>
+  </div>
+
+  <!-- Tabs navigation -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="home">Home</button>
+    <button class="tab-btn" data-tab="profile">Profile</button>
+    <button class="tab-btn" data-tab="analytics">Analytics</button>
+    <button class="tab-btn" data-tab="settings">Settings</button>
+  </div>
+
+  <!-- Tabs content -->
+  <div class="tab-content active" id="home">
+    <div class="tab-card">
+      <h2>Welcome to Dashboard</h2>
+      <p>This is the Home tab content.</p>
+    </div>
+  </div>
+  <div class="tab-content" id="profile">
+    <div class="tab-card">
+      <h2>Your Profile</h2>
+      <p>Profile information goes here.</p>
+    </div>
+  </div>
+  <div class="tab-content" id="analytics">
+    <div class="tab-card">
+      <h2>Analytics</h2>
+      <p>Charts and stats go here.</p>
+    </div>
+  </div>
+  <div class="tab-content" id="settings">
+    <div class="tab-card">
+      <h2>Settings</h2>
+      <p>Adjust your preferences here.</p>
+    </div>
+  </div>
+
+  <!-- Logout Button -->
+  <div class="logout-container">
+    <button (click)="logout()" class="btn-logout">Logout</button>
+  </div>
 </div>
 
-<div *ngIf="!user">
-  <p>You are not logged in.</p>
-  <a routerLink="/login">Go to Login</a>
-</div>
+<script>
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabButtons.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
+    });
+  });
+</script>

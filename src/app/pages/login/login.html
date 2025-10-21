@@ -7,6 +7,7 @@
   <!-- 🧾 Form Section -->
   <div class="login-form">
     <h2>We love Teo</h2>
+    
     <form [formGroup]="loginForm">
       <div class="mb-3">
         <input type="email" formControlName="EmailId" class="form-control" placeholder="Email address" required>
@@ -14,12 +15,22 @@
       <div class="mb-3">
         <input type="password" formControlName="Password" class="form-control" placeholder="Password" required>
       </div>
-      <button type="button" (click)="onLogin()" class="btn btn-login">Login</button>
+      <!-- Updated method -->
+      <button type="button" (click)="loginWithEmail()" class="btn btn-login">Login (Email)</button>
     </form>
+
+    <!-- Firebase Google login -->
+    <div class="mb-3 mt-2">
+      <button type="button" (click)="loginWithGoogle()" class="btn btn-google">
+  <img src="assets/google-logo.png" alt="Google Logo">
+  Login with Google
+</button>
+
+    </div>
+
     <div class="extra-links">
       <a [routerLink]="['/forgot-password']">Forgot Password?</a><br>
       <a [routerLink]="['/register']">Create Account</a>
     </div>
-
   </div>
 </div>

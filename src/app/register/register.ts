@@ -1,47 +1,53 @@
-import { Component, inject } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
-import { UserService,User } from '../services/user.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
+import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user.model';
+
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  standalone: true, // ✅ important for no module
+  imports: [CommonModule, ReactiveFormsModule, RouterModule], // needed for [formGroup] & [routerLink]
   templateUrl: './register.html',
   styleUrls: ['./register.css']
 })
-export class Register {
-  registerForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(4)])
-  });
+export class Register implements OnInit {
+  registerForm!: FormGroup;
 
-  route = inject(Router);
-  userService = inject(UserService);
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
-  onRegister() {
-    const { name, email, password } = this.registerForm.value;
+  ngOnInit() {
+    this.registerForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(4)]]
+    });
+  }
 
-    if (!name || !email || !password) {
-      alert('⚠️ Please fill in all fields.');
+  async onRegister() {
+    if (this.registerForm.invalid) {
+      alert('Please fill all fields correctly.');
       return;
     }
-    const userData = { name, email, password };
-    localStorage.setItem('user', JSON.stringify(userData));
 
-    this.userService.register({ name, email, password }).subscribe({
-  next: (newUser) => {
-    // ✅ SAVE USER INFO HERE TOO
-    localStorage.setItem('user', JSON.stringify(newUser));
+    const { name, email, password } = this.registerForm.value;
+    const userData: User = { name, email, password };
 
-    // optional: redirect to dashboard
-    this.route.navigate(['/dashboard']);
-  },
-  error: (err) => {
-    console.error('Register failed', err);
-  }
-});
-
+    try {
+      await this.authService.signup(email, password);
+      this.userService.registerLocal(userData);
+      this.router.navigate(['/dashboard']);
+    } catch (err: any) {
+      console.error('Registration failed', err);
+      alert(err.message || 'Registration failed.');
+    }
   }
 }
