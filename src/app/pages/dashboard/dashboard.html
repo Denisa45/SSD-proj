@@ -14,12 +14,12 @@
     <div class="nav-links">
       <h3>Navigation</h3>
       <ul>
-        <li><a href="#">Courses</a></li>
-        <li><a href="#">Submissions</a></li>
-        <li><a href="#">Exams</a></li>
-        <li><a href="#">Goals</a></li>
-        <li><a href="#">Journal</a></li>
-        <li><a href="#">Habit Tracker</a></li>
+        <li><button [class.active]="activeTab==='home'" (click)="setActiveTab('home')">Home</button></li>
+        <li><button [class.active]="activeTab==='courses'" (click)="setActiveTab('courses')">Courses</button></li>
+        <li><button [class.active]="activeTab==='tasks'" (click)="setActiveTab('tasks')">Tasks</button></li>
+        <li><button [class.active]="activeTab==='goals'" (click)="setActiveTab('goals')">Goals</button></li>
+        <li><button [class.active]="activeTab==='journal'" (click)="setActiveTab('journal')">Journal</button></li>
+        <li><button [class.active]="activeTab==='settings'" (click)="setActiveTab('settings')">Settings</button></li>
       </ul>
     </div>
   </aside>
@@ -28,42 +28,42 @@
   <div class="dashboard-container">
     <!-- Header Card -->
     <div class="header-card">
-      <h1>Welcome, {{ user()?.name || user()?.email }}!</h1>
-      <p>Email: {{ user()?.email }}</p>
-      <p *ngIf="user()?.uid">Firebase UID: {{ user()?.uid }}</p>
-    </div>
-
-    <!-- Tabs Navigation -->
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="home">Home</button>
-      <button class="tab-btn" data-tab="courses">Courses</button>
-      <button class="tab-btn" data-tab="tasks">Tasks</button>
-      <button class="tab-btn" data-tab="goals">Goals</button>
-      <button class="tab-btn" data-tab="journal">Journal</button>
-      <button class="tab-btn" data-tab="settings">Settings</button>
+      <h1>Welcome, {{ user?.name || user?.email }}!</h1>
+      <p>Email: {{ user?.email }}</p>
+      <p *ngIf="user?.uid">Firebase UID: {{ user?.uid }}</p>
     </div>
 
     <!-- Tabs Content -->
-    <div class="tab-content active" id="home">
+    <!-- Home -->
+    <div class="tab-content" [class.active]="activeTab==='home'">
       <div class="tab-card">
         <h2>Welcome to Your Dashboard</h2>
         <p>Quick overview and user info.</p>
       </div>
     </div>
 
-    <div class="tab-content" id="courses">
+    <!-- Courses -->
+    <div class="tab-content" [class.active]="activeTab==='courses'">
       <div class="tab-card">
         <h2>Your Courses</h2>
-        <div class="course-grid">
-          <div class="course-card">Course 1</div>
-          <div class="course-card">Course 2</div>
-          <div class="course-card">Course 3</div>
-          <div class="course-card">Course 4</div>
-        </div>
+
+        <ng-container *ngIf="courses$ | async as courses">
+          <div *ngIf="courses.length === 0">
+            <p>No courses added yet. Click "Add New Course" to get started!</p>
+          </div>
+
+          <div class="course-grid" *ngIf="courses.length > 0">
+            <div class="course-card" *ngFor="let course of courses">
+              <h3>{{ course.name }}</h3>
+              <p>{{ course.description || 'No description available.' }}</p>
+            </div>
+          </div>
+        </ng-container>
       </div>
     </div>
 
-    <div class="tab-content" id="tasks">
+    <!-- Tasks -->
+    <div class="tab-content" [class.active]="activeTab==='tasks'">
       <div class="tab-card">
         <h2>Today's Tasks</h2>
         <ul class="task-list">
@@ -74,21 +74,24 @@
       </div>
     </div>
 
-    <div class="tab-content" id="goals">
+    <!-- Goals -->
+    <div class="tab-content" [class.active]="activeTab==='goals'">
       <div class="tab-card">
         <h2>Your Goals</h2>
         <p>Track your academic and personal goals.</p>
       </div>
     </div>
 
-    <div class="tab-content" id="journal">
+    <!-- Journal -->
+    <div class="tab-content" [class.active]="activeTab==='journal'">
       <div class="tab-card">
         <h2>Journal</h2>
         <p>Write your thoughts and reflections.</p>
       </div>
     </div>
 
-    <div class="tab-content" id="settings">
+    <!-- Settings -->
+    <div class="tab-content" [class.active]="activeTab==='settings'">
       <div class="tab-card">
         <h2>Settings</h2>
         <p>Adjust preferences and logout.</p>
@@ -97,18 +100,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  const tabButtons = document.querySelectorAll('.tab-btn');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabButtons.forEach(b => b.classList.remove('active'));
-      tabContents.forEach(c => c.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
-    });
-  });
-</script>
-<a routerLink="/somewhere">Go</a>
