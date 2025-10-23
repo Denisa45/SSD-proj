@@ -1,0 +1,14 @@
+<h2>Add New Course</h2>
+
+<div class="form-group">
+  <label>Course Name</label>
+  <input type="text" [(ngModel)]="courseName" placeholder="Enter course name">
+</div>
+
+<div class="form-group">
+  <label>Description</label>
+  <textarea [(ngModel)]="courseDescription" placeholder="Enter description"></textarea>
+</div>
+
+<button (click)="addCourse()">Add Course</button>
+<button (click)="close()">Cancel</button>

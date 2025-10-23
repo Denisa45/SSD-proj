@@ -42,25 +42,27 @@
       </div>
     </div>
 
-    <!-- Courses -->
-    <div class="tab-content" [class.active]="activeTab==='courses'">
-      <div class="tab-card">
-        <h2>Your Courses</h2>
+    <!-- Courses Tab -->
+  <div class="tab-content" [class.active]="activeTab==='courses'">
+    <div class="tab-card">
+      <h2>Your Courses</h2>
 
-        <ng-container *ngIf="courses$ | async as courses">
-          <div *ngIf="courses.length === 0">
-            <p>No courses added yet. Click "Add New Course" to get started!</p>
-          </div>
+      <ng-container *ngIf="courses$ | async as courses">
+        <div *ngIf="courses.length === 0">
+          <p>No courses added yet. Click "Add New Course" to get started!</p>
+        </div>
 
-          <div class="course-grid" *ngIf="courses.length > 0">
-            <div class="course-card" *ngFor="let course of courses">
+        <div class="course-grid" *ngIf="courses.length > 0">
+          <!-- This is where the dashboard display goes -->
+          <div class="course-card" *ngFor="let course of courses$ | async">
               <h3>{{ course.name }}</h3>
-              <p>{{ course.description || 'No description available.' }}</p>
-            </div>
+              <p>{{ course.description || 'No description' }}</p>
+              <a [routerLink]="['/course', course.id]">View Details</a>
           </div>
-        </ng-container>
-      </div>
+        </div>
+      </ng-container>
     </div>
+  </div>
 
     <!-- Tasks -->
     <div class="tab-content" [class.active]="activeTab==='tasks'">
