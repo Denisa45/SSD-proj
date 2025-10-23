@@ -24,14 +24,19 @@ export class Dashboard implements OnInit {
     private dialog: MatDialog,            // ✅ injected here
     private firestore:Firestore
   ) {}
-
+  
   ngOnInit() {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (user?.uid) {
-      const coursesCollection = collection(this.firestore, `users/${user.uid}/courses`);
-      this.courses$ = collectionData(coursesCollection, { idField: 'id' });
+    // ✅ initialize user properly
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      this.user = JSON.parse(storedUser);
+
+      // load courses from Firestore if logged in
+      const coursesCollection = collection(this.firestore, `users/${this.user.uid}/courses`);
+      this.courses$ = collectionData(coursesCollection, { idField: 'id' }) as Observable<any[]>;
     }
   }
+
 
   // 🔹 Handle tab switching
   setActiveTab(tab: string) {
