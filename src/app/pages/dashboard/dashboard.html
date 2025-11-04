@@ -1,0 +1,104 @@
+<div class="dashboard-wrapper">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="quick-adds">
+      <h3>Quick Adds</h3>
+      <ul>
+        <li><button (click)="openAddCourseModal()">Add New Course</button></li>
+        <li><button>Add Submission</button></li>
+        <li><button>Add Exam</button></li>
+        <li><button>Add Journal</button></li>
+        <li><button>Add Goal</button></li>
+      </ul>
+    </div>
+    <div class="nav-links">
+      <h3>Navigation</h3>
+      <ul>
+        <li><button [class.active]="activeTab==='home'" (click)="setActiveTab('home')">Home</button></li>
+        <li><button [class.active]="activeTab==='courses'" (click)="setActiveTab('courses')">Courses</button></li>
+        <li><button [class.active]="activeTab==='tasks'" (click)="setActiveTab('tasks')">Tasks</button></li>
+        <li><button [class.active]="activeTab==='goals'" (click)="setActiveTab('goals')">Goals</button></li>
+        <li><button [class.active]="activeTab==='journal'" (click)="setActiveTab('journal')">Journal</button></li>
+        <li><button [class.active]="activeTab==='settings'" (click)="setActiveTab('settings')">Settings</button></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Dashboard -->
+  <div class="dashboard-container">
+    <!-- Header Card -->
+    <div class="header-card">
+      <h1>Welcome, {{ user?.name || user?.email }}!</h1>
+      <p>Email: {{ user?.email }}</p>
+      <p *ngIf="user?.uid">Firebase UID: {{ user?.uid }}</p>
+    </div>
+
+    <!-- Tabs Content -->
+    <!-- Home -->
+    <div class="tab-content" [class.active]="activeTab==='home'">
+      <div class="tab-card">
+        <h2>Welcome to Your Dashboard</h2>
+        <p>Quick overview and user info.</p>
+      </div>
+    </div>
+
+    <!-- Courses Tab -->
+  <div class="tab-content" [class.active]="activeTab==='courses'">
+    <div class="tab-card">
+      <h2>Your Courses</h2>
+
+      <ng-container *ngIf="courses$ | async as courses">
+        <div *ngIf="courses.length === 0">
+          <p>No courses added yet. Click "Add New Course" to get started!</p>
+        </div>
+
+        <div class="course-grid" *ngIf="courses.length > 0">
+          <!-- This is where the dashboard display goes -->
+          <div class="course-card" *ngFor="let course of courses$ | async">
+              <h3>{{ course.name }}</h3>
+              <p>{{ course.description || 'No description' }}</p>
+              <a [routerLink]="['/course', course.id]">View Details</a>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+    <!-- Tasks -->
+    <div class="tab-content" [class.active]="activeTab==='tasks'">
+      <div class="tab-card">
+        <h2>Today's Tasks</h2>
+        <ul class="task-list">
+          <li><input type="checkbox" /> Finish assignment</li>
+          <li><input type="checkbox" /> Review notes</li>
+          <li><input type="checkbox" /> Submit essay</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Goals -->
+    <div class="tab-content" [class.active]="activeTab==='goals'">
+      <div class="tab-card">
+        <h2>Your Goals</h2>
+        <p>Track your academic and personal goals.</p>
+      </div>
+    </div>
+
+    <!-- Journal -->
+    <div class="tab-content" [class.active]="activeTab==='journal'">
+      <div class="tab-card">
+        <h2>Journal</h2>
+        <p>Write your thoughts and reflections.</p>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="tab-content" [class.active]="activeTab==='settings'">
+      <div class="tab-card">
+        <h2>Settings</h2>
+        <p>Adjust preferences and logout.</p>
+        <button (click)="logout()" class="btn-logout">Logout</button>
+      </div>
+    </div>
+  </div>
+</div>

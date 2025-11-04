@@ -1,0 +1,12 @@
+<h2>Study Sessions</h2>
+
+<ul>
+  <li *ngFor="let s of sessions">
+    <strong>{{ s.subject }}</strong> ({{ s.duration }} min)
+    <br />
+    {{ s.notes }}
+    <button (click)="deleteSession(s.id!)">Delete</button>
+  </li>
+</ul>
+
+<button (click)="addSession()">Add Dummy Session</button>

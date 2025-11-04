@@ -1,0 +1,132 @@
+body {
+  background: linear-gradient(135deg, #4a90e2, #50c9c3);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+/* Google login button container */
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;              /* space between icon and text */
+  background-color: #ffffff;
+  color: #444;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+.btn-google:hover {
+  background-color: #f7f7f7;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+/* Google logo inside button */
+.btn-google img {
+  width: 24px;   /* icon size */
+  height: 24px;
+}
+
+.login-container {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.2);
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  animation: fadeInUp 0.8s ease;
+}
+
+.login-image {
+  background: #f0f4ff;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.login-image img {
+  max-width: 100%;
+  width: 80%;
+  animation: float 3s ease-in-out infinite;
+}
+
+.login-form {
+  flex: 1;
+  padding: 2.5rem;
+}
+
+.login-form h2 {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.form-control {
+  border-radius: 50px;
+  padding: 0.75rem 1.25rem;
+}
+
+.btn-login {
+  background-color: #4a90e2;
+  border: none;
+  border-radius: 50px;
+  padding: 0.75rem;
+  font-weight: 600;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+  background-color: #357ABD;
+  transform: translateY(-3px);
+  box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
+}
+
+.extra-links {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.extra-links a {
+  text-decoration: none;
+  color: #4a90e2;
+  font-weight: 500;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+  .login-image {
+    display: none;
+  }
+  .login-form {
+    padding: 2rem 1.5rem;
+  }
+}
