@@ -1,18 +1,21 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('study_sessions')
+@Entity()
 export class StudySession {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
+  title: string;
+
+  @Column()
   subject: string;
 
   @Column()
-  duration: number; // minutes
+  start_time: Date;
 
-  @Column({ type: 'datetime' })
-  date: Date;
+  @Column()
+  end_time: Date;
 
   @Column({ nullable: true })
   notes: string;

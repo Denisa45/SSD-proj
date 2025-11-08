@@ -1,23 +1,24 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudySessionModule } from './study-session/study-session.module';
-
-const ormOptions: TypeOrmModuleOptions = {
-  type: 'mysql',
-  host: 'localhost',
-  port: 3306,
-  username: 'root',
-  password: 'andrei4590',
-  database: 'studyplanner',
-  autoLoadEntities: true,
-  synchronize: true,
-  ssl: false, // local dev, so no SSL
-};
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(ormOptions),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: 'andrei4590',
+      database: 'StudyPlanner',
+      autoLoadEntities: true,
+      synchronize: true,
+    }),
     StudySessionModule,
+    AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {}

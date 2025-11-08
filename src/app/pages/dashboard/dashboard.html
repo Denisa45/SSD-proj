@@ -28,7 +28,7 @@
   <div class="dashboard-container">
     <!-- Header Card -->
     <div class="header-card">
-      <h1>Welcome, {{ user?.name || user?.email }}!</h1>
+      <h1>Welcome, {{ user?.username || user?.name || user?.email }}!</h1>
       <p>Email: {{ user?.email }}</p>
       <p *ngIf="user?.uid">Firebase UID: {{ user?.uid }}</p>
     </div>

@@ -5,9 +5,8 @@ import { StudySessionService } from './study-session.service';
 import { StudySessionController } from './study-session.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([StudySession])],  // ✅ registers repository
-  providers: [StudySessionService],
+  imports: [TypeOrmModule.forFeature([StudySession])],
   controllers: [StudySessionController],
-  exports: [TypeOrmModule],  // ✅ allows export of repository to AppModule
+  providers: [StudySessionService],
 })
 export class StudySessionModule {}

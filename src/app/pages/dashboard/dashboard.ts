@@ -1,3 +1,4 @@
+import { jwtDecode } from 'jwt-decode';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
@@ -26,12 +27,25 @@ export class Dashboard implements OnInit {
   ) {}
   
   ngOnInit() {
-    // ✅ initialize user properly
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      this.user = JSON.parse(storedUser);
+    const token = localStorage.getItem('token');
+    const firebaseUser = localStorage.getItem('user');
 
-      // load courses from Firestore if logged in
+    // ✅ If backend login
+    if (token) {
+      try {
+        const decoded: any = jwtDecode(token);
+        this.user = { username: decoded.username || decoded.id || 'User' };
+      } catch (e) {
+        console.error('Failed to decode token', e);
+      }
+    }
+    // ✅ If Firebase login
+    else if (firebaseUser) {
+      this.user = JSON.parse(firebaseUser);
+    }
+
+    // ✅ If Firebase user exists, load their courses
+    if (this.user?.uid) {
       const coursesCollection = collection(this.firestore, `users/${this.user.uid}/courses`);
       this.courses$ = collectionData(coursesCollection, { idField: 'id' }) as Observable<any[]>;
     }
@@ -44,11 +58,13 @@ export class Dashboard implements OnInit {
   }
   
 
-  logout() {
-    this.authService.logout().catch((err: any) => console.warn('Firebase logout failed', err));
-    localStorage.removeItem('user');
-    window.location.href = '/login';
-  }
+ logout() {
+  this.authService.logout().catch((err: any) => console.warn('Firebase logout failed', err));
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
+  window.location.href = '/login';
+}
+
 
 openAddCourseModal() {
   const dialogRef = this.dialog.open(AddCourseModalComponent, {
