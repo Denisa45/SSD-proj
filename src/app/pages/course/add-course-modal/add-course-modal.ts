@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Firestore, collection, addDoc } from '@angular/fire/firestore';
+import { ApiService } from '../../../services/api.service'; // ✅ connect to backend
 
 @Component({
   selector: 'app-add-course-modal',
@@ -16,34 +16,34 @@ export class AddCourseModalComponent {
   courseDescription = '';
 
   constructor(
-    public dialogRef: MatDialogRef<AddCourseModalComponent>, // ✅ must be public
-    private firestore: Firestore
+    public dialogRef: MatDialogRef<AddCourseModalComponent>,
+    private api: ApiService
   ) {}
 
   close() {
     this.dialogRef.close();
   }
 
-  async addCourse() {
-    if (!this.courseName) return;
-
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (!user.uid) return;
-
-    const coursesCollection = collection(this.firestore, `users/${user.uid}/courses`);
-
-    try {
-      await addDoc(coursesCollection, {
-        name: this.courseName,
-        description: this.courseDescription,
-        createdAt: new Date()
-      });
-
-      // Close the modal and send 'added' result
-      this.dialogRef.close('added');
-
-    } catch (err) {
-      console.error('Failed to add course:', err);
+  addCourse() {
+    if (!this.courseName.trim()) {
+      alert('Please enter a course name.');
+      return;
     }
+
+    const courseData = {
+      name: this.courseName,
+      description: this.courseDescription
+    };
+
+    this.api.addCourse(courseData).subscribe({
+      next: () => {
+        alert('✅ Course added successfully!');
+        this.dialogRef.close('added'); // ✅ closes modal after save
+      },
+      error: (err) => {
+        console.error('❌ Failed to add course:', err);
+        alert(err.error?.message || 'Failed to add course.');
+      }
+    });
   }
 }

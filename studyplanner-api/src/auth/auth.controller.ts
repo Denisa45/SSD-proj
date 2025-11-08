@@ -6,18 +6,17 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  register(@Body() body: { username: string; password: string }) {
+  register(@Body() body: any) {
     return this.authService.register(body.username, body.password);
   }
 
   @Post('login')
-  login(@Body() body: { username: string; password: string }) {
+  login(@Body() body: any) {
     return this.authService.login(body.username, body.password);
   }
 
   @Post('google')
-  async googleLogin(@Body() body: { email: string; name?: string }) {
-    return this.authService.loginOrRegisterGoogle(body.email, body.name);
+  loginWithGoogle(@Body() body: any) {
+    return this.authService.loginWithGoogle(body.email, body.name);
   }
-  
 }

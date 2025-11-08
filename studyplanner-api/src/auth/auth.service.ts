@@ -1,44 +1,55 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/user.service';
-import { UnauthorizedException } from '@nestjs/common';
+import { User } from '../user/user.entity';
+import { UserService } from '../user/user.service';
+import * as bcrypt from 'bcrypt';
+
+
 @Injectable()
 export class AuthService {
-    constructor(
-        private userService:UserService,
-        private jwt:JwtService,
-    ){}
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService
+  ) {}
 
-    async register(username:string , password:string){
-        const existing= await this.userService.findByUsername(username);
-        if(existing) throw new BadRequestException('Username already registered');
+  // ✅ Registration
+  async register(username: string, password: string) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await this.userService.create({
+      username,
+      password: hashedPassword,
+    });
 
-        const user = await this.userService.createUser(username,password);
-        return { message: 'User registered successfully', user };
-    }
+    const payload = { username: user.username, sub: user.id };
+    return { token: this.jwtService.sign(payload) };
+  }
 
-    async login(username:string , password:string){
-        const user = await this.userService.findByUsername(username);
-    if (!user || !(await user.validatePassword(password))) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
+  // ✅ Login (with password)
+  async login(username: string, password: string) {
+    const user = await this.userService.findByUsername(username);
+    if (!user) throw new Error('User not found.');
 
-    const token = await this.jwt.signAsync({ id: user.id, username: user.username });
-    return { token };
-    }
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) throw new Error('Invalid credentials.');
 
-        async loginOrRegisterGoogle(email: string, name?: string) {
-    // Try to find user by email
-    let user = await this.userService.findByUsername(email);
+    const payload = { username: user.username, sub: user.id };
+    return { token: this.jwtService.sign(payload) };
+  }
 
-    // If not found, create a new one
+  // ✅ Google Login or Register
+  async loginWithGoogle(email: string, name: string) {
+    let user = await this.userService.findByEmail(email);
+
+    // If user doesn't exist, create one automatically
     if (!user) {
-        user = await this.userService.createUser(email, ''); // empty password
+      user = await this.userService.create({
+        username: name,
+        email,
+        password: '', // optional placeholder
+      });
     }
 
-    // Generate a JWT token
-    const token = await this.jwt.signAsync({ id: user.id, username: user.username });
-    return { token, message: 'Google user authenticated successfully' };
-    }
-
+    const payload = { username: user.username, sub: user.id };
+    return { token: this.jwtService.sign(payload) };
+  }
 }

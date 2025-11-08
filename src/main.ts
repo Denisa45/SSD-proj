@@ -10,8 +10,12 @@ import { environment } from './environments/environment';
 import { importProvidersFrom } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
+import { LucideIconModule } from './app/icons.config'; // 👈 add this
+
+
 bootstrapApplication(AppComponent, {
   providers: [
+    importProvidersFrom(LucideIconModule),
     provideAnimations(),
     provideRouter(routes),
     provideFirebaseApp(() => initializeApp(environment.firebase)),

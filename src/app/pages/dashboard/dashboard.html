@@ -4,100 +4,100 @@
     <div class="quick-adds">
       <h3>Quick Adds</h3>
       <ul>
-        <li><button (click)="openAddCourseModal()">Add New Course</button></li>
-        <li><button>Add Submission</button></li>
-        <li><button>Add Exam</button></li>
-        <li><button>Add Journal</button></li>
-        <li><button>Add Goal</button></li>
+        <li><button (click)="openAddCourseModal()"><lucide-icon name="book-plus"></lucide-icon> Add Course</button></li>
+        <li><button><lucide-icon name="check-square"></lucide-icon> Add Task</button></li>
+        <li><button><lucide-icon name="calendar-days"></lucide-icon> Add Event</button></li>
+        <li><button><lucide-icon name="target"></lucide-icon> Add Goal</button></li>
+        <li><button><lucide-icon name="pen-line"></lucide-icon> Add Journal Entry</button></li>
       </ul>
     </div>
+
     <div class="nav-links">
       <h3>Navigation</h3>
       <ul>
-        <li><button [class.active]="activeTab==='home'" (click)="setActiveTab('home')">Home</button></li>
-        <li><button [class.active]="activeTab==='courses'" (click)="setActiveTab('courses')">Courses</button></li>
-        <li><button [class.active]="activeTab==='tasks'" (click)="setActiveTab('tasks')">Tasks</button></li>
-        <li><button [class.active]="activeTab==='goals'" (click)="setActiveTab('goals')">Goals</button></li>
-        <li><button [class.active]="activeTab==='journal'" (click)="setActiveTab('journal')">Journal</button></li>
-        <li><button [class.active]="activeTab==='settings'" (click)="setActiveTab('settings')">Settings</button></li>
+        <li><button [class.active]="activeTab==='home'" (click)="setActiveTab('home')">
+          <lucide-icon name="home"></lucide-icon> Home
+        </button></li>
+        <li><button [class.active]="activeTab==='courses'" (click)="setActiveTab('courses')">
+          <lucide-icon name="book-open"></lucide-icon> Courses
+        </button></li>
+        <li><button [class.active]="activeTab==='planner'" (click)="setActiveTab('planner')">
+          <lucide-icon name="calendar"></lucide-icon> Planner
+        </button></li>
+        <li><button [class.active]="activeTab==='timer'" (click)="setActiveTab('timer')">
+          <lucide-icon name="clock"></lucide-icon> Study Timer
+        </button></li>
+        <li><button [class.active]="activeTab==='settings'" (click)="setActiveTab('settings')">
+          <lucide-icon name="settings"></lucide-icon> Settings
+        </button></li>
       </ul>
     </div>
   </aside>
 
   <!-- Main Dashboard -->
   <div class="dashboard-container">
-    <!-- Header Card -->
+    <!-- Header -->
     <div class="header-card">
       <h1>Welcome, {{ user?.username || user?.name || user?.email }}!</h1>
       <p>Email: {{ user?.email }}</p>
-      <p *ngIf="user?.uid">Firebase UID: {{ user?.uid }}</p>
     </div>
 
-    <!-- Tabs Content -->
-    <!-- Home -->
+    <!-- HOME -->
     <div class="tab-content" [class.active]="activeTab==='home'">
       <div class="tab-card">
-        <h2>Welcome to Your Dashboard</h2>
-        <p>Quick overview and user info.</p>
+        <h2><lucide-icon name="sparkles"></lucide-icon> Welcome to Your Study Planner</h2>
+        <p>Organize your learning schedule, track progress, and stay productive!</p>
       </div>
     </div>
 
-    <!-- Courses Tab -->
-  <div class="tab-content" [class.active]="activeTab==='courses'">
-    <div class="tab-card">
-      <h2>Your Courses</h2>
+    <!-- COURSES -->
+    <div class="tab-content" [class.active]="activeTab==='courses'">
+      <div class="tab-card">
+        <h2><lucide-icon name="book-open-check"></lucide-icon> Your Courses</h2>
 
-      <ng-container *ngIf="courses$ | async as courses">
         <div *ngIf="courses.length === 0">
-          <p>No courses added yet. Click "Add New Course" to get started!</p>
+          <p>No courses added yet. Click "Add Course" to get started!</p>
         </div>
 
         <div class="course-grid" *ngIf="courses.length > 0">
-          <!-- This is where the dashboard display goes -->
-          <div class="course-card" *ngFor="let course of courses$ | async">
-              <h3>{{ course.name }}</h3>
-              <p>{{ course.description || 'No description' }}</p>
-              <a [routerLink]="['/course', course.id]">View Details</a>
+          <div class="course-card" *ngFor="let course of courses">
+            <h3><lucide-icon name="bookmark"></lucide-icon> {{ course.name }}</h3>
+            <p>{{ course.description || 'No description provided.' }}</p>
+            <a [routerLink]="['/course', course.id]">View Details</a>
           </div>
         </div>
-      </ng-container>
-    </div>
-  </div>
-
-    <!-- Tasks -->
-    <div class="tab-content" [class.active]="activeTab==='tasks'">
-      <div class="tab-card">
-        <h2>Today's Tasks</h2>
-        <ul class="task-list">
-          <li><input type="checkbox" /> Finish assignment</li>
-          <li><input type="checkbox" /> Review notes</li>
-          <li><input type="checkbox" /> Submit essay</li>
-        </ul>
       </div>
     </div>
 
-    <!-- Goals -->
-    <div class="tab-content" [class.active]="activeTab==='goals'">
+    <!-- PLANNER -->
+    <div class="tab-content" [class.active]="activeTab==='planner'">
       <div class="tab-card">
-        <h2>Your Goals</h2>
-        <p>Track your academic and personal goals.</p>
+        <h2><lucide-icon name="calendar-clock"></lucide-icon> Planner</h2>
+        <div class="calendar-placeholder">
+          <p>[Calendar View Coming Soon]</p>
+        </div>
       </div>
     </div>
 
-    <!-- Journal -->
-    <div class="tab-content" [class.active]="activeTab==='journal'">
+    <!-- STUDY TIMER -->
+    <div class="tab-content" [class.active]="activeTab==='timer'">
       <div class="tab-card">
-        <h2>Journal</h2>
-        <p>Write your thoughts and reflections.</p>
+        <h2><lucide-icon name="timer"></lucide-icon> Study Timer</h2>
+        <p>Start focused study sessions and track your progress.</p>
+        <div class="timer-placeholder">
+          <p>[Pomodoro Timer Integration Coming Soon]</p>
+        </div>
       </div>
     </div>
 
-    <!-- Settings -->
+    <!-- SETTINGS -->
     <div class="tab-content" [class.active]="activeTab==='settings'">
       <div class="tab-card">
-        <h2>Settings</h2>
-        <p>Adjust preferences and logout.</p>
-        <button (click)="logout()" class="btn-logout">Logout</button>
+        <h2><lucide-icon name="user-cog"></lucide-icon> Settings</h2>
+        <p>Manage your account and preferences.</p>
+        <button (click)="logout()" class="btn-logout">
+          <lucide-icon name="log-out"></lucide-icon> Logout
+        </button>
       </div>
     </div>
   </div>
