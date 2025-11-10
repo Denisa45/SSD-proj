@@ -1,24 +1,87 @@
-<div *ngIf="course$ | async as course">
-  <h2>{{ course.name }}</h2>
-  <p>{{ course.description || 'No description' }}</p>
+<div *ngIf="course; else loading" class="course-detail-container">
+  <!-- Header -->
+  <div class="course-header">
+    <h2 class="course-title">{{ course.name }}</h2>
+    <p class="course-desc">
+      {{ course.description || 'No description available.' }}
+    </p>
 
-  <h3>Tasks</h3>
-  <ul>
-    <li *ngFor="let task of course.tasks">
-      <input type="checkbox" [checked]="task.done"> {{ task.name }}
-    </li>
-  </ul>
+    <div class="course-actions">
+      <button class="btn edit" (click)="editCourse()">
+        ✏️ Edit
+      </button>
+      <button class="btn delete" (click)="deleteCourse()">
+        🗑️ Delete
+      </button>
+    </div>
+  </div>
 
-  <input type="text" [(ngModel)]="newTask" placeholder="New Task">
-  <button (click)="addTask()">Add Task</button>
+  <!-- Tasks Section -->
+  <div class="tasks-section">
+    <h3>
+      Tasks
+      <span class="progress">
+        {{ completedTasksCount }} / {{ totalTasksCount }} completed
+      </span>
+    </h3>
 
-  <h3>Resources</h3>
-  <ul>
-    <li *ngFor="let res of course.resources">{{ res.name || res }}</li>
-  </ul>
+    <ul class="task-list" *ngIf="course.tasks && course.tasks.length > 0; else noTasks">
+      <li
+        *ngFor="let task of course.tasks"
+        class="task-item"
+        [class.done]="task.done"
+      >
+        <label>
+          <input
+            type="checkbox"
+            [checked]="task.done"
+            (change)="toggleTask(task.name)"
+          />
+          <span>{{ task.name }}</span>
+        </label>
+        <button class="delete-task-btn" (click)="removeTask(task.name)">
+          ✖
+        </button>
+      </li>
+    </ul>
 
-  <h3>Reminders</h3>
-  <ul>
-    <li *ngFor="let r of course.reminders">{{ r.text || r }}</li>
-  </ul>
+    <ng-template #noTasks>
+      <p class="empty-tasks">No tasks yet. Add your first one below!</p>
+    </ng-template>
+
+    <div class="add-task">
+      <input
+        type="text"
+        [(ngModel)]="newTask"
+        placeholder="Enter new task..."
+      />
+      <button (click)="addTask()" class="btn add">➕ Add Task</button>
+    </div>
+  </div>
+  <section class="materials-section">
+    <h3>📚 Materials</h3>
+
+    <div class="upload-box">
+      <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.ppt,.png,.jpg" />
+      <button class="btn upload" (click)="uploadFile()">⬆️ Upload</button>
+    </div>
+
+    <ul *ngIf="course.materials?.length; else noMaterials" class="material-list">
+      <li *ngFor="let mat of course.materials" class="material-item">
+        <a [href]="mat.url" target="_blank">{{ mat.name }}</a>
+        <button class="btn-icon delete" (click)="removeMaterial(mat.name)">✖</button>
+      </li>
+    </ul>
+
+    <ng-template #noMaterials>
+      <p class="empty-msg">No materials uploaded yet.</p>
+    </ng-template>
+  </section>
+
 </div>
+
+<ng-template #loading>
+  <div class="loading">
+    <p>Loading course details...</p>
+  </div>
+</ng-template>
