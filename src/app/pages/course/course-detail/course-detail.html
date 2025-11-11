@@ -58,25 +58,27 @@
       <button (click)="addTask()" class="btn add">➕ Add Task</button>
     </div>
   </div>
-  <section class="materials-section">
-    <h3>📚 Materials</h3>
+    <!-- Materials Section -->
+  <div class="materials-section" *ngIf="course.materials?.length">
+  <h3>📚 Materials</h3>
+  <ul class="material-list">
+    <li *ngFor="let mat of course.materials">
+      <a [href]="'http://localhost:3000' + mat.url" target="_blank" download>
+        {{ mat.name }}
+      </a>
+      <button class="btn-icon delete" (click)="removeMaterial(mat.name)">✖</button>
+    </li>
+  </ul>
+</div>
 
-    <div class="upload-box">
-      <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.ppt,.png,.jpg" />
-      <button class="btn upload" (click)="uploadFile()">⬆️ Upload</button>
-    </div>
 
-    <ul *ngIf="course.materials?.length; else noMaterials" class="material-list">
-      <li *ngFor="let mat of course.materials" class="material-item">
-        <a [href]="mat.url" target="_blank">{{ mat.name }}</a>
-        <button class="btn-icon delete" (click)="removeMaterial(mat.name)">✖</button>
-      </li>
-    </ul>
+  <!-- Upload New Material -->
+  <div class="upload-material">
+  <input type="file" #fileInput />
+  <button (click)="uploadMaterial(fileInput.files)">Upload File</button>
+  </div>
 
-    <ng-template #noMaterials>
-      <p class="empty-msg">No materials uploaded yet.</p>
-    </ng-template>
-  </section>
+
 
 </div>
 

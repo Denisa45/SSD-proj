@@ -107,21 +107,35 @@ onFileSelected(event: any) {
   this.selectedFile = event.target.files[0];
 }
 
-uploadFile() {
-  if (!this.selectedFile) return;
-  this.api.uploadMaterial(this.courseId, this.selectedFile).subscribe({
-    next: (updated) => {
-      this.course = updated;
-      this.selectedFile = null;
+
+uploadMaterial(files: FileList | null) {
+  if (!files || files.length === 0) return;
+
+  const file = files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  this.api.uploadMaterial(this.courseId, formData).subscribe({
+    next: (updatedCourse) => {
+      console.log('✅ File uploaded:', updatedCourse);
+      this.course = updatedCourse;
     },
-    error: (err) => console.error('Error uploading file', err),
+    error: (err) => console.error('❌ Error uploading file', err),
   });
 }
 
+
 removeMaterial(fileName: string) {
-  if (!confirm(`Remove material "${fileName}"?`)) return;
-  this.course.materials = this.course.materials.filter((m: any) => m.name !== fileName);
+  if (!confirm(`Are you sure you want to delete "${fileName}"?`)) return;
+  this.api.removeMaterial(this.courseId, fileName).subscribe({
+    next: (updatedCourse) => {
+      console.log('🗑️ Material removed:', updatedCourse);
+      this.course = updatedCourse;
+    },
+    error: (err) => console.error('❌ Error removing material', err),
+  });
 }
+
 
 
 

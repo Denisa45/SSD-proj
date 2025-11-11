@@ -81,17 +81,15 @@ export class ApiService {
     );
   }
 
-  uploadMaterial(courseId:number,file:File):Observable<any>{
-    const token = localStorage.getItem('token');
-     const headers = new HttpHeaders({
-          Authorization: `Bearer ${token}`,
-      });
-    const formData=new FormData();
-    formData.append('file',file);
+  uploadMaterial(courseId: number, formData: FormData): Observable<any> {
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`,
+  });
 
-    return this.http.post(`${this.BASE_URL}/courses/${courseId}/materials/`,formData,{headers});
+  return this.http.post(`${this.BASE_URL}/courses/${courseId}/upload`, formData, { headers });
+}
 
-  }
   removeMaterial(courseId: number, fileName: string): Observable<any> {
   const token = localStorage.getItem('token');
   const headers = new HttpHeaders({
