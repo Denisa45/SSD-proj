@@ -5,6 +5,9 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CourseModule } from './course/course.module';
 
+
+
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -16,6 +19,8 @@ import { CourseModule } from './course/course.module';
       database: 'StudyPlanner',
       autoLoadEntities: true,
       synchronize: true,
+      
+
     }),
     StudySessionModule,
     AuthModule,

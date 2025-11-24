@@ -72,6 +72,30 @@
 </div>
 
 
+<h3>Grades</h3>
+
+<div class="grade-input">
+  <input 
+    type="number" 
+    min="1" 
+    max="10" 
+    [(ngModel)]="newGrade" 
+    placeholder="Add grade (1-10)"
+  />
+  <button (click)="addGrade()">Add</button>
+</div>
+
+<ul class="grade-list">
+  <li *ngFor="let g of course.grades; let i = index">
+    {{ g.value }}
+    <button (click)="removeGrade(i)">✖</button>
+  </li>
+</ul>
+
+<p><strong>Average:</strong> {{ gradeAverage }}</p>
+
+
+
   <!-- Upload New Material -->
   <div class="upload-material">
   <input type="file" #fileInput />

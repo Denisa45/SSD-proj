@@ -1,0 +1,31 @@
+.planner-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+::ng-deep .fc {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.planner-wrapper {
+  width: 100%;
+  display: block;
+}
+
+.calendar-container {
+  width: 100%;
+  min-height: 600px;   /* ⭐ required so FullCalendar renders */
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}

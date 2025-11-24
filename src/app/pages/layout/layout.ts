@@ -1,11 +1,19 @@
-// layout.ts
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet],  // remove RouterLink if not used
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    LucideAngularModule
+  ],
   templateUrl: './layout.html',
   styleUrls: ['./layout.css']
 })
-export class Layout {}
+export class LayoutComponent {
+
+}

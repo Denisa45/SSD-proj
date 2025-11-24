@@ -8,10 +8,10 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { environment } from './environments/environment';
 import { importProvidersFrom } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { LucideIconModule } from './app/icons.config';
 
-import { LucideIconModule } from './app/icons.config'; // 👈 add this
-
+import { authInterceptor } from './app/auth.interceptor';   // ✅ import interceptor
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -21,6 +21,10 @@ bootstrapApplication(AppComponent, {
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    importProvidersFrom(HttpClientModule)
+
+    // ✅ ENABLE TOKEN INTERCEPTOR
+    provideHttpClient(
+      withInterceptors([authInterceptor])
+    )
   ]
 }).catch(err => console.error(err));

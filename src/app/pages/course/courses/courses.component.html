@@ -1,0 +1,12 @@
+<div class="courses-wrapper">
+  <h2>Your Courses</h2>
+
+  <div 
+    class="course-card" 
+    *ngFor="let c of courses"
+    [routerLink]="['/courses', c.id]"
+  >
+    <div class="course-title">{{ c.name }}</div>
+    <div class="course-desc">{{ c.description }}</div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="settings-wrapper">
+  <h2>Settings</h2>
+  <p>Manage your account and preferences.</p>
+
+  <!-- CHANGE USERNAME -->
+  <div class="setting-card">
+    <h3>Change Username</h3>
+    <input type="text" [(ngModel)]="newUsername" placeholder="New username" />
+    <button (click)="changeUsername()">Save</button>
+  </div>
+
+  <!-- CHANGE EMAIL -->
+  <div class="setting-card">
+    <h3>Change Email</h3>
+    <input type="email" [(ngModel)]="newEmail" placeholder="New email" />
+    <button (click)="changeEmail()">Save</button>
+  </div>
+
+  <!-- CHANGE PASSWORD -->
+  <div class="setting-card">
+    <h3>Change Password</h3>
+    <input type="password" [(ngModel)]="oldPassword" placeholder="Current password" />
+    <input type="password" [(ngModel)]="newPassword" placeholder="New password" />
+    <button (click)="changePassword()">Save</button>
+  </div>
+
+  <button class="logout-btn" (click)="logout()">
+    Logout
+  </button>
+</div>

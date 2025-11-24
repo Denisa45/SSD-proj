@@ -1,104 +1,57 @@
-<div class="dashboard-wrapper">
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="quick-adds">
-      <h3>Quick Adds</h3>
-      <ul>
-        <li><button (click)="openAddCourseModal()"><lucide-icon name="book-plus"></lucide-icon> Add Course</button></li>
-        <li><button><lucide-icon name="check-square"></lucide-icon> Add Task</button></li>
-        <li><button><lucide-icon name="calendar-days"></lucide-icon> Add Event</button></li>
-        <li><button><lucide-icon name="target"></lucide-icon> Add Goal</button></li>
-        <li><button><lucide-icon name="pen-line"></lucide-icon> Add Journal Entry</button></li>
-      </ul>
-    </div>
+<div class="dashboard-container">
 
-    <div class="nav-links">
-      <h3>Navigation</h3>
-      <ul>
-        <li><button [class.active]="activeTab==='home'" (click)="setActiveTab('home')">
-          <lucide-icon name="home"></lucide-icon> Home
-        </button></li>
-        <li><button [class.active]="activeTab==='courses'" (click)="setActiveTab('courses')">
-          <lucide-icon name="book-open"></lucide-icon> Courses
-        </button></li>
-        <li><button [class.active]="activeTab==='planner'" (click)="setActiveTab('planner')">
-          <lucide-icon name="calendar"></lucide-icon> Planner
-        </button></li>
-        <li><button [class.active]="activeTab==='timer'" (click)="setActiveTab('timer')">
-          <lucide-icon name="clock"></lucide-icon> Study Timer
-        </button></li>
-        <li><button [class.active]="activeTab==='settings'" (click)="setActiveTab('settings')">
-          <lucide-icon name="settings"></lucide-icon> Settings
-        </button></li>
-      </ul>
-    </div>
-  </aside>
+  <!-- HEADER -->
+  <div class="header-card">
+    <h1>Welcome, {{ user?.username || user?.name || user?.email }}!</h1>
+    <p>Email: {{ user?.email }}</p>
+  </div>
 
-  <!-- Main Dashboard -->
-  <div class="dashboard-container">
-    <!-- Header -->
-    <div class="header-card">
-      <h1>Welcome, {{ user?.username || user?.name || user?.email }}!</h1>
-      <p>Email: {{ user?.email }}</p>
-    </div>
-
-    <!-- HOME -->
-    <div class="tab-content" [class.active]="activeTab==='home'">
-      <div class="tab-card">
-        <h2><lucide-icon name="sparkles"></lucide-icon> Welcome to Your Study Planner</h2>
-        <p>Organize your learning schedule, track progress, and stay productive!</p>
-      </div>
-    </div>
-
-    <!-- COURSES -->
-    <div class="tab-content" [class.active]="activeTab==='courses'">
-      <div class="tab-card">
-        <h2><lucide-icon name="book-open-check"></lucide-icon> Your Courses</h2>
-
-        <div *ngIf="courses.length === 0">
-          <p>No courses added yet. Click "Add Course" to get started!</p>
-        </div>
-
-        <div class="course-grid" *ngIf="courses.length > 0">
-          <div class="course-card" *ngFor="let course of courses">
-            <h3><lucide-icon name="bookmark"></lucide-icon> {{ course.name }}</h3>
-            <p>{{ course.description || 'No description provided.' }}</p>
-            <a [routerLink]="['/course', course.id]">View Details</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLANNER -->
-    <div class="tab-content" [class.active]="activeTab==='planner'">
-      <div class="tab-card">
-        <h2><lucide-icon name="calendar-clock"></lucide-icon> Planner</h2>
-        <div class="calendar-placeholder">
-          <p>[Calendar View Coming Soon]</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- STUDY TIMER -->
-    <div class="tab-content" [class.active]="activeTab==='timer'">
-      <div class="tab-card">
-        <h2><lucide-icon name="timer"></lucide-icon> Study Timer</h2>
-        <p>Start focused study sessions and track your progress.</p>
-        <div class="timer-placeholder">
-          <p>[Pomodoro Timer Integration Coming Soon]</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- SETTINGS -->
-    <div class="tab-content" [class.active]="activeTab==='settings'">
-      <div class="tab-card">
-        <h2><lucide-icon name="user-cog"></lucide-icon> Settings</h2>
-        <p>Manage your account and preferences.</p>
-        <button (click)="logout()" class="btn-logout">
-          <lucide-icon name="log-out"></lucide-icon> Logout
-        </button>
-      </div>
+  <!-- INTRO CARD -->
+  <div class="home-section">
+    <div class="tab-card">
+      <h2>
+        <lucide-icon name="sparkles"></lucide-icon>
+        Welcome to Your Study Planner
+      </h2>
+      <p>Organize your learning schedule, track progress, and stay productive!</p>
     </div>
   </div>
+
+  <!-- GLOBAL AVERAGE -->
+  <div class="average-box">
+    <h2>Overall Average Grade</h2>
+    <div class="avg-num">{{ globalAverage }}</div>
+  </div>
+
+  <!-- QUICK STATS -->
+  <div class="quick-stats">
+
+    <div class="stat-card">
+      ⭐ <strong>Best Course</strong><br>
+      {{ bestCourse }} ({{ bestAvg }})
+    </div>
+
+    <div class="stat-card">
+      ⚠ <strong>Worst Course</strong><br>
+      {{ worstCourse }} ({{ worstAvg }})
+    </div>
+
+    <div class="stat-card">
+      📚 <strong>Total Courses</strong><br>
+      {{ totalCourses }}
+    </div>
+
+    <div class="stat-card">
+      ✔ <strong>Completed Tasks</strong><br>
+      {{ totalCompletedTasks }}
+    </div>
+
+    <div class="stat-card">
+      📝 <strong>Today's Events</strong><br>
+      {{ upcomingEventsToday }}
+    </div>
+
+  </div>
+
 </div>
+

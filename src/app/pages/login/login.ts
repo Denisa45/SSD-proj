@@ -25,34 +25,33 @@ export class Login {
     private firebaseAuth: AuthService 
   ) {}
 
-  onLogin() {
-    if (this.loginForm.invalid) {
-      alert('Please enter your username and password.');
-      return;
-    }
-
-    const { username, password } = this.loginForm.value;
-
-    this.api.login(username!, password!).subscribe({
-      next: (res) => {
-        // Save JWT token for authenticated requests
-        localStorage.setItem('token', res.token);
-        alert('Login successful!');
-        this.router.navigate(['/dashboard']);
-      },
-      error: (err) => {
-        console.error(err);
-        alert(err.error?.message || 'Login failed.');
-      }
-    });
+ onLogin() {
+  if (this.loginForm.invalid) {
+    alert('Please enter your username/email and password.');
+    return;
   }
+
+  const identifier = this.loginForm.value.username!;
+  const password = this.loginForm.value.password!;
+
+  this.api.login(identifier, password).subscribe({
+    next: (res) => {
+      localStorage.setItem('token', res.token);
+      this.router.navigate(['/dashboard']);
+    },
+    error: (err) => {
+      alert(err.error?.error || 'Login failed.');
+    }
+  });
+}
+
 
  async loginWithGoogle() {
   try {
     const user = await this.firebaseAuth.loginWithGoogle();
 
     // ✅ Send user to backend to sync
-    const res = await fetch('http://localhost:3000/auth/google', {
+    const res = await fetch('http://localhost:5000/auth/google', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: user.email, name: user.displayName })

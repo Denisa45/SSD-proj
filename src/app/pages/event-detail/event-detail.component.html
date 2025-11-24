@@ -1,0 +1,17 @@
+<div class="event-detail">
+
+  <h2>Edit Event</h2>
+
+  <label>Title</label>
+  <input [(ngModel)]="event.title">
+
+  <label>Date</label>
+  <input type="date" [(ngModel)]="event.date">
+
+  <label>Description</label>
+  <textarea [(ngModel)]="event.description"></textarea>
+
+  <button (click)="save()" class="btn-save">Save</button>
+  <button (click)="delete()" class="btn-delete">Delete</button>
+
+</div>

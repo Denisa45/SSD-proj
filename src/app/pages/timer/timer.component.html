@@ -1,0 +1,27 @@
+<div class="timer-container">
+
+  <h1>{{ isBreak ? 'Break Time' : 'Study Timer' }}</h1>
+
+  <div class="time">{{ formattedTime }}</div>
+
+  <div class="controls">
+    <button (click)="startTimer()" [disabled]="isRunning">Start</button>
+    <button (click)="pauseTimer()" [disabled]="!isRunning">Pause</button>
+    <button (click)="resetTimer()">Reset</button>
+  </div>
+
+  <h2>Session History</h2>
+
+  <div *ngIf="sessionHistory.length === 0">
+    No study sessions yet.
+  </div>
+
+  <ul>
+    <li *ngFor="let s of sessionHistory">
+      <strong>{{ s.type }}</strong> — {{ s.duration }} ({{ s.date }})
+    </li>
+  </ul>
+
+  <button class="clear" (click)="clearHistory()">Clear History</button>
+
+</div>
