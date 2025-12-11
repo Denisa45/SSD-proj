@@ -1,0 +1,24 @@
+<div class="register-container">
+  <!-- Left Side Image -->
+  <div class="register-image">
+    <img src="assets/logo.png" alt="Study Planner Logo" />
+  </div>
+
+  <!-- Right Side Form -->
+  <div class="register-form">
+    <h2>Create Account</h2>
+    <p class="subtitle">Join Study Planner and start organizing your studies!</p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      <input formControlName="username" placeholder="Username" />
+      <input type="password" formControlName="password" placeholder="Password" />
+      <button type="submit" class="btn-register">Register</button>
+    </form>
+
+    <div class="extra-links">
+      <span>Already have an account?</span>
+      <a [routerLink]="['/login']">Login</a>
+    </div>
+
+  </div>
+</div>

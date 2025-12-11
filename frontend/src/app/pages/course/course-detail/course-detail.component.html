@@ -1,0 +1,92 @@
+<div *ngIf="course; else loading" class="course-detail-container">
+  
+  <div class="course-header">
+    <h2 class="course-title">{{ course.name }}</h2>
+    <p class="course-desc">
+      {{ course.description || 'No description available.' }}
+    </p>
+
+    <div class="course-actions">
+      <button class="btn edit" (click)="editCourse()">✏️ Edit</button>
+      <button class="btn delete" (click)="deleteCourse()">🗑️ Delete</button>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="tasks-section">
+    <h3>✅ Tasks</h3>
+    
+    <div *ngFor="let task of course.tasks" class="task-item">
+      <input type="checkbox" 
+             [checked]="task.done" 
+             (change)="toggleTask(task.name)">
+      
+      <span [class.completed]="task.done">{{ task.name }}</span>
+      
+      <button (click)="removeTask(task.name)" class="btn-delete">❌</button>
+    </div>
+
+    <div class="add-task">
+      <input #taskInput type="text" placeholder="Enter new task...">
+      <button (click)="addTask(taskInput.value); taskInput.value=''">+ Add Task</button>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="grades-section">
+    <h3>🎓 Grades</h3>
+    
+    <ul>
+      <li *ngFor="let grade of course.grades">
+        <strong>{{ grade.name }}</strong>: {{ grade.score }}%
+        <button (click)="removeGrade(grade.name)" class="btn-delete">❌</button>
+      </li>
+    </ul>
+
+    <p class="average">
+        <strong>Average:</strong> {{ getAverageGrade() | number:'1.0-2' }}%
+    </p>
+
+    <div class="add-grade">
+      <input #gradeNameInput type="text" placeholder="Exam Name (e.g. Midterm)">
+      <input #gradeScoreInput type="number" placeholder="Score (0-100)">
+      
+      <button (click)="addGrade(gradeNameInput.value, gradeScoreInput.value); gradeNameInput.value=''; gradeScoreInput.value=''">
+        Add Grade
+      </button>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="materials-section">
+    <h3>📚 Materials</h3>
+
+    <ul class="material-list" *ngIf="course.materials?.length">
+      <li *ngFor="let mat of course.materials">
+        <a [href]="'http://localhost:3000/' + mat.url" target="_blank">
+          {{ mat.name }}
+        </a>
+        <button class="btn-icon delete" (click)="removeMaterial(mat.name)">✖</button>
+      </li>
+    </ul>
+
+    <div class="upload-section">
+      <h4>Upload New Material</h4>
+      <input type="file" (change)="onFileSelected($event)" #fileInput> 
+      <button (click)="uploadFile()" [disabled]="!selectedFile">
+        Upload File
+      </button>
+      <p *ngIf="selectedFile">File selected: {{ selectedFile.name }}</p>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #loading>
+  <div class="loading">
+    <p>Loading course details...</p>
+  </div>
+</ng-template>

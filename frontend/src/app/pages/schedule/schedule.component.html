@@ -1,0 +1,39 @@
+<div class="schedule-container">
+  <h2>Weekly Class Schedule</h2>
+
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th *ngFor="let day of days">{{ day }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let time of times">
+          <td class="time-cell">{{ time }}</td>
+          
+          <td *ngFor="let day of days" class="input-cell">
+            <div class="cell-wrapper">
+              
+              <input 
+                [(ngModel)]="scheduleData[day][time].subject" 
+                (blur)="saveCell(day, time)"
+                placeholder="-" 
+                class="subject-input"
+              >
+              
+              <input 
+                [(ngModel)]="scheduleData[day][time].room" 
+                (blur)="saveCell(day, time)"
+                placeholder="Room" 
+                class="room-input"
+              >
+              
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

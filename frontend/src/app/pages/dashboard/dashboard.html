@@ -1,0 +1,57 @@
+<div class="dashboard-container">
+
+  <!-- HEADER -->
+  <div class="header-card">
+    <h1>Welcome, {{ user?.username || user?.name || user?.email }}!</h1>
+    <p>Email: {{ user?.email }}</p>
+  </div>
+
+  <!-- INTRO CARD -->
+  <div class="home-section">
+    <div class="tab-card">
+      <h2>
+        <lucide-icon name="sparkles"></lucide-icon>
+        Welcome to Your Study Planner
+      </h2>
+      <p>Organize your learning schedule, track progress, and stay productive!</p>
+    </div>
+  </div>
+
+  <!-- GLOBAL AVERAGE -->
+  <div class="average-box">
+    <h2>Overall Average Grade</h2>
+    <div class="avg-num">{{ globalAverage }}</div>
+  </div>
+
+  <!-- QUICK STATS -->
+  <div class="quick-stats">
+
+    <div class="stat-card">
+      ⭐ <strong>Best Course</strong><br>
+      {{ bestCourse }} ({{ bestAvg }})
+    </div>
+
+    <div class="stat-card">
+      ⚠ <strong>Worst Course</strong><br>
+      {{ worstCourse }} ({{ worstAvg }})
+    </div>
+
+    <div class="stat-card">
+      📚 <strong>Total Courses</strong><br>
+      {{ totalCourses }}
+    </div>
+
+    <div class="stat-card">
+      ✔ <strong>Completed Tasks</strong><br>
+      {{ totalCompletedTasks }}
+    </div>
+
+    <div class="stat-card">
+      📝 <strong>Today's Events</strong><br>
+      {{ upcomingEventsToday }}
+    </div>
+
+  </div>
+
+</div>
+

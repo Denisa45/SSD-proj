@@ -1,0 +1,102 @@
+Square and cube
+
+MAIN    INP R0, 2
+        MOV R1, R0
+        MOV R6, #0
+        MOV R7, #0
+        JMS SQUARE
+        OUT R6, 4
+        JMS CUBE 
+        OUT R7, 4
+        HLT
+SQUARE  PSH R0
+        PSH R1
+        MOV R2, R0
+        MOV R6, #0
+LOOP_SQ CMP R2, #0
+        BLE DONE_SQ
+        ADD R6, R6, R0
+        SUB R2, #1
+        BRA LOOP_SQ
+DONE_SQ POP R1
+        POP R0
+        RET
+CUBE    PSH R0
+        PSH R1
+        MOV R2, R1 // Counter = N
+        MOV R7, #0 // Result = 0
+LOOP_CB CMP R2, #0
+        BLE DONE_CB
+        ADD R7, R7, R6 // R7 += N^2
+        SUB R2, #1
+        BRA LOOP_CB
+DONE_CB POP R1
+        POP R0
+        RET
+------------------------
+
+Absolute Value
+
+MAIN    INP R0, 2
+        MOV R1, #0
+        JMS CH_NEG
+        OUT R0, 4
+        HLT
+CH_NEG  CMP R0, #0
+        BGE END
+        SUB R1, R1, R0
+        MOV R0, R1
+END     RET
+-------------------------
+
+Division
+
+MAIN    INP R0, 2
+        INP R1, 2
+        MOV R7, #0
+        JMS DIVISION
+        OUT R7, 4
+        HLT
+DIVISION CMP R0, R1
+        BLT END
+        SUB R0, R0, R1
+        ADD R7, #1
+        BRA DIVISION
+END     RET
+------------------------
+Maximum of 3 numbers
+
+MAIN    INP R0, 2
+        INP R1, 2
+        INP R2, 2
+        MOV R4, R0
+        JMS MAX1
+        JMS MAX2
+        OUT R4, 4
+        HLT
+MAX1    CMP R4, R1
+        BGT END1
+        MOV R4, R1
+END1    RET
+MAX2    CMP R4, R2
+        BGT END2
+        MOV R4, R2
+END2    RET
+-------------------------
+SUM 1 to N
+
+MAIN    INP R0, 2
+        MOV R1, #0
+        JMS SUM
+        OUT R1, 4
+        HLT
+SUM     CMP R0, #0
+        BLT END
+        ADD R1, R1, R0
+        SUB R0, #1
+        BRA SUM
+END     RET
+-------------------------
+
+
+

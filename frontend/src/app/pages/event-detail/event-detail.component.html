@@ -1,0 +1,24 @@
+<div class="container" style="padding: 20px; max-width: 500px; margin: auto;">
+    <h2>{{ isEditMode ? 'Edit Event' : 'Add New Event' }}</h2>
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        
+        <label>Title:</label>
+        <input [(ngModel)]="event.title" placeholder="Event Title" style="padding: 8px;">
+
+        <label>Date:</label>
+        <input type="date" [(ngModel)]="event.date" style="padding: 8px;">
+
+        <label>Description:</label>
+        <textarea [(ngModel)]="event.description" rows="3" style="padding: 8px;"></textarea>
+
+        <div style="margin-top: 20px; display: flex; gap: 10px;">
+            <button type="button" (click)="save()" style="padding: 10px 20px; background: blue; color: white;">Save</button>
+            
+            <button *ngIf="isEditMode" type="button" (click)="delete()" style="padding: 10px 20px; background: red; color: white;">Delete</button>
+            
+            <button type="button" (click)="router.navigate(['/planner'])" style="padding: 10px 20px;">Cancel</button>
+        </div>
+
+    </div>
+</div>

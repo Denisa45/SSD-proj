@@ -1,0 +1,77 @@
+/* FIX: Sidebar should sit flush-left, no visual gap */
+body {
+  margin: 0;
+  background: #1e293b !important; /* same color as sidebar */
+  height: 100%;
+}
+
+.layout-wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: #1e293b;
+  color: white;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;           /*  NEW  */
+  flex-direction: column;  /*  NEW  */
+  justify-content: space-between; /*  ENSURES IT STRETCHES  */
+  height: 100%;            /*  IMPORTANT  */
+}
+
+
+/* Section headers */
+.sidebar h3 {
+  margin-top: 10px;
+  margin-bottom: 8px;
+  color: #cbd5e1;
+}
+
+/* Lists */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 8px;
+}
+
+/* Buttons + links */
+.sidebar button,
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #334155;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Hover effect */
+.sidebar button:hover,
+.sidebar a:hover {
+  background: #475569;
+}
+
+/* Main content area */
+.main-content {
+  flex-grow: 1;
+   height: 90vh;
+  padding: 30px;
+  overflow-y: auto;
+  background: linear-gradient(to right, #3b82f6, #22d3ee);
+  height: 100vh;         /* <— IMPORTANT */
+}
+

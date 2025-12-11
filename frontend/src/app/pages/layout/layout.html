@@ -1,0 +1,70 @@
+<div class="layout-wrapper">
+  
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="quick-adds">
+      <h3>Quick Adds</h3>
+      <ul>
+        <li>
+          <button routerLink="/dashboard" fragment="addCourse">
+            <lucide-icon name="book-plus"></lucide-icon> Add Course
+          </button>
+        </li>
+
+        <li>
+          <button routerLink="/event/new">
+            <lucide-icon name="calendar-days"></lucide-icon> Add Event
+          </button>
+        </li>
+        
+      </ul>
+    </div>
+
+    <div class="nav-links">
+      <h3>Navigation</h3>
+      <ul>
+        <li>
+          <a routerLink="/dashboard">
+            <lucide-icon name="home"></lucide-icon> Home
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/schedule">
+            <lucide-icon name="calendar"></lucide-icon>Class Schedule 
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/courses">
+            <lucide-icon name="book-open"></lucide-icon> Courses
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/planner">
+            <lucide-icon name="calendar"></lucide-icon> Planner
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/timer">
+            <lucide-icon name="clock"></lucide-icon> Study Timer
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/settings">
+            <lucide-icon name="settings"></lucide-icon> Settings
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main content where routed pages appear -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

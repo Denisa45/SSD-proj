@@ -1,0 +1,28 @@
+<div class="login-container">
+  <!-- 🖼️ Image Section -->
+  <div class="login-image">
+    <img src="assets/logo.png" alt="Login Image" class="img-fluid">
+  </div>
+
+  <!-- 🧾 Form Section -->
+  <div class="login-form">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <input formControlName="username" placeholder="Username" />
+      <input type="password" formControlName="password" placeholder="Password" />
+      <button type="submit" class="btn-login">Login</button>
+    </form>
+
+    <div class="extra-links">
+      <a [routerLink]="['/forgot-password']">Forgot Password?</a><br>
+      <a [routerLink]="['/register']">Create Account</a>
+    </div>
+
+    <div class="google-login">
+      <button type="button" (click)="loginWithGoogle()" class="btn-google">
+        <img src="assets/google-logo.png" alt="Google Logo">
+        Login with Google
+      </button>
+    </div>
+  </div>
+</div>
+

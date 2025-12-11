@@ -1,0 +1,22 @@
+import { Controller, Post, Body } from '@nestjs/common';
+import { AuthService } from './auth.service';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
+  @Post('register')
+  register(@Body() body: any) {
+    return this.authService.register(body.username, body.password);
+  }
+
+  @Post('login')
+  login(@Body() body: any) {
+    return this.authService.login(body.username, body.password);
+  }
+
+  @Post('google')
+  loginWithGoogle(@Body() body: any) {
+    return this.authService.loginWithGoogle(body.email, body.name);
+  }
+}
